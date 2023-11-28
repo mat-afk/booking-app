@@ -7,6 +7,8 @@ func main() {
 	conferenceName := "Gopher Conference"
 	const conferenceTickets uint = 50
 	var remainingTickets uint = conferenceTickets
+	// slice: dynamic array
+	bookings := []string{}
 
 	fmt.Printf("Welcome to %v booking application!\n", conferenceName)
 	fmt.Printf("We have a total of %v tickets and %v are still remaining for the event.\n", conferenceTickets, remainingTickets)
@@ -15,7 +17,7 @@ func main() {
 	var firstName string
 	var lastName string
 	var email string
-	var userTickets int
+	var userTickets uint
 
 	fmt.Println("Enter your first name: ")
 	fmt.Scan(&firstName)
@@ -29,6 +31,11 @@ func main() {
 	fmt.Println("How many tickets would you like to book? ")
 	fmt.Scan(&userTickets)
 
-	fmt.Printf("\nThank you %v %v for booking %v tickets. A confirmation e-mail will be sent to %v.\n", firstName, lastName, userTickets, email)
+	remainingTickets -= userTickets
+	bookings = append(bookings, firstName + " " + lastName)
 
+	fmt.Printf("\nThank you %v for booking %v tickets. A confirmation e-mail will be sent to %v.\n", bookings[0], userTickets, email)
+	fmt.Printf("There are %v tickets remaining for the %v.\n", remainingTickets, conferenceName)
+
+	fmt.Printf("\nThese are all of our bookings %v.\n", bookings)
 }
