@@ -35,12 +35,16 @@ func main() {
 		fmt.Println("How many tickets would you like to book? ")
 		fmt.Scan(&userTickets)
 
-		if userTickets < remainingTickets {
+		nameIsValid := len(firstName) >= 2 && len(lastName) >= 2 
+		emailIsValid := strings.Contains(email, "@")
+		ticketNumberIsValid := userTickets > 0 && userTickets <= remainingTickets
+
+		if nameIsValid && emailIsValid && ticketNumberIsValid {
 
 			remainingTickets -= userTickets
 			bookings = append(bookings, firstName + " " + lastName)
 
-			fmt.Printf("\nThank you %v for booking %v tickets. A confirmation e-mail will be sent to %v.\n", bookings[0], userTickets, email)
+			fmt.Printf("\nThank you %v %v for booking %v tickets. A confirmation e-mail will be sent to %v.\n", firstName, lastName, userTickets, email)
 			fmt.Printf("There are %v tickets remaining for the %v.\n", remainingTickets, conferenceName)
 
 			firstNames := []string{}
@@ -53,12 +57,30 @@ func main() {
 			fmt.Printf("\nThe first names of bookings are: %v.\n\n", firstNames)
 
 			if remainingTickets == 0 {
-				fmt.Printf("\nSorry, the %v is booked out. Come back next year :)\n", conferenceName)
+				fmt.Printf("\nSorry, the %v is booked out. Come back next year :]\n", conferenceName)
 				break
 			}
 
 		} else {
-			fmt.Printf("\nSorry, there are only %v tickets remaining.\n\n", remainingTickets)
+			errorMessages := []string{}
+
+			errorMessages = append(errorMessages, "\nThere was an error with your booking:")
+
+			if !nameIsValid {
+				errorMessages = append(errorMessages, "Your first name or last name is too short.")
+			}
+
+			if !emailIsValid {
+				errorMessages = append(errorMessages, "Your e-mail address doesn't contain '@' sign.")
+			}
+
+			if !ticketNumberIsValid {
+				errorMessages = append(errorMessages, "Your ticket number is invalid.")
+			}
+
+			errorMessages = append(errorMessages, "Please try again.\n\n")
+
+			fmt.Print(strings.Join(errorMessages, "\n"))
 		}
 	}
 }
