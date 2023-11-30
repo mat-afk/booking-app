@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"booking-app/helper"
 )
 
 const conferenceTickets uint = 50
@@ -18,7 +19,7 @@ func main() {
 		
 		firstName, lastName, email, userTickets := getUserData()
 
-		nameIsValid, emailIsValid, ticketNumberIsValid := validateUserData(firstName, lastName, email, userTickets)
+		nameIsValid, emailIsValid, ticketNumberIsValid := helper.ValidateUserData(firstName, lastName, email, userTickets, remainingTickets)
 
 		if nameIsValid && emailIsValid && ticketNumberIsValid {
 
@@ -70,14 +71,6 @@ func getFirstNames() []string {
 	}
 
 	return firstNames
-}
-
-func validateUserData(firstName string, lastName string, email string, userTickets uint) (bool, bool, bool) {
-	nameIsValid := len(firstName) >= 2 && len(lastName) >= 2 
-	emailIsValid := strings.Contains(email, "@")
-	ticketNumberIsValid := userTickets > 0 && userTickets <= remainingTickets
-
-	return nameIsValid, emailIsValid, ticketNumberIsValid
 }
 
 func getUserData() (string, string, string, uint) {
